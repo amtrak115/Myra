@@ -499,7 +499,7 @@ namespace Myra.Graphics2D.UI
 				return;
 			}
 
-			var bounds = ActualBounds;
+			var bounds = new Rectangle(0, 0, ActualBounds.Width, ActualBounds.Height);
 			var availableSize = bounds.Size();
 			var oldMeasureSize = InternalChild.Measure(availableSize);
 
@@ -532,11 +532,10 @@ namespace Myra.Graphics2D.UI
 
 				// Remeasure with scrollbars
 				var measureSize = InternalChild.Measure(availableSize);
-
 				var bw = bounds.Width - (_verticalScrollingOn && ShowVerticalScrollBar ? vsWidth : 0);
 
-				_horizontalScrollbarFrame = new Rectangle(bounds.Left,
-					bounds.Bottom - hsHeight,
+				_horizontalScrollbarFrame = new Rectangle(0,
+					bounds.Height - hsHeight,
 					bw,
 					hsHeight);
 
@@ -546,16 +545,16 @@ namespace Myra.Graphics2D.UI
 					mw = 1;
 				}
 
-				_horizontalScrollbarThumb = new Rectangle(bounds.Left,
-					bounds.Bottom - hsHeight,
+				_horizontalScrollbarThumb = new Rectangle(0,
+					bounds.Height - hsHeight,
 					Math.Max(HorizontalScrollKnob.Size.X, bw * bw / mw),
 					HorizontalScrollKnob.Size.Y);
 
 				var bh = bounds.Height - (_horizontalScrollingOn ? hsHeight : 0);
 
 				_verticalScrollbarFrame = new Rectangle(
-					bounds.Left + bounds.Width - vsWidth,
-					bounds.Top,
+					bounds.Width - vsWidth,
+					0,
 					vsWidth,
 					bh);
 
@@ -566,8 +565,8 @@ namespace Myra.Graphics2D.UI
 				}
 
 				_verticalScrollbarThumb = new Rectangle(
-					bounds.Left + bounds.Width - vsWidth,
-					bounds.Top,
+					bounds.Width - vsWidth,
+					0,
 					VerticalScrollKnob.Size.X,
 					Math.Max(VerticalScrollKnob.Size.Y, bh * bh / mh));
 

@@ -67,6 +67,12 @@ namespace Myra.Graphics2D
 		private Rectangle _scissor;
 		private Matrix? _transform;
 		private TextureFiltering _textureFiltering = TextureFiltering.Nearest;
+		private readonly Transform _transform2 = new Transform();
+
+		/// <summary>
+		/// Transform
+		/// </summary>
+		public Transform Transform2 => _transform2;
 
 		public Matrix? Transform
 		{
@@ -130,7 +136,7 @@ namespace Myra.Graphics2D
 				var device = _renderer.GraphicsDevice;
 				value.X += device.Viewport.X;
 				value.Y += device.Viewport.Y;
-				device.ScissorRectangle = value;
+//				device.ScissorRectangle = value;
 #elif STRIDE
 				Flush();
 				MyraEnvironment.Game.GraphicsContext.CommandList.SetScissorRectangle(value);
@@ -186,6 +192,7 @@ namespace Myra.Graphics2D
 
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color)
 		{
+			destinationRectangle = Transform2.Apply(destinationRectangle);
 			SetTextureFiltering(TextureFiltering.Nearest);
 			color = CrossEngineStuff.MultiplyColor(color, Opacity);
 #if MONOGAME || FNA
@@ -200,6 +207,7 @@ namespace Myra.Graphics2D
 #if MONOGAME || FNA || STRIDE
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Color color)
 		{
+			destinationRectangle = Transform2.Apply(destinationRectangle);
 			SetTextureFiltering(TextureFiltering.Nearest);
 			color = CrossEngineStuff.MultiplyColor(color, Opacity);
 
@@ -208,6 +216,7 @@ namespace Myra.Graphics2D
 
 		public void Draw(Texture2D texture, Vector2 position, Color color)
 		{
+			position = Transform2.Apply(position);
 			SetTextureFiltering(TextureFiltering.Nearest);
 			color = CrossEngineStuff.MultiplyColor(color, Opacity);
 
@@ -216,6 +225,7 @@ namespace Myra.Graphics2D
 		
 		public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color)
 		{
+			position = Transform2.Apply(position);
 			SetTextureFiltering(TextureFiltering.Nearest);
 			color = CrossEngineStuff.MultiplyColor(color, Opacity);
 
@@ -224,6 +234,7 @@ namespace Myra.Graphics2D
 
 		public void Draw(Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth)
 		{
+			destinationRectangle = Transform2.Apply(destinationRectangle);
 			SetTextureFiltering(TextureFiltering.Nearest);
 			color = CrossEngineStuff.MultiplyColor(color, Opacity);
 #if MONOGAME || FNA
@@ -235,6 +246,7 @@ namespace Myra.Graphics2D
 
 		public void Draw(Texture2D texture, Vector2 position, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, Vector2 scale, SpriteEffects effects, float layerDepth)
 		{
+			position = Transform2.Apply(position);
 			SetTextureFiltering(TextureFiltering.Nearest);
 			color = CrossEngineStuff.MultiplyColor(color, Opacity);
 #if MONOGAME || FNA
@@ -269,6 +281,7 @@ namespace Myra.Graphics2D
 		/// <param name="layerDepth">A depth of the layer of this string.</param>
 		public void DrawString(SpriteFontBase font, string text, Vector2 position, Color color, Vector2 scale, float rotation, Vector2 origin, float layerDepth = 0.0f)
 		{
+			position = Transform2.Apply(position);
 			SetTextTextureFiltering();
 			color = CrossEngineStuff.MultiplyColor(color, Opacity);
 
@@ -281,6 +294,7 @@ namespace Myra.Graphics2D
 
 		public void DrawString(SpriteFontBase font, string text, Vector2 position, Color color, Vector2 scale, float layerDepth = 0.0f)
 		{
+			position = Transform2.Apply(position);
 			SetTextTextureFiltering();
 			color = CrossEngineStuff.MultiplyColor(color, Opacity);
 
@@ -300,6 +314,7 @@ namespace Myra.Graphics2D
 		/// <param name="layerDepth">A depth of the layer of this string.</param>
 		public void DrawString(SpriteFontBase font, string text, Vector2 position, Color color, float layerDepth = 0.0f)
 		{
+			position = Transform2.Apply(position);
 			SetTextTextureFiltering();
 			color = CrossEngineStuff.MultiplyColor(color, Opacity);
 
@@ -322,6 +337,7 @@ namespace Myra.Graphics2D
 		/// <param name="layerDepth">A depth of the layer of this string.</param>
 		public void DrawString(SpriteFontBase font, string text, Vector2 position, Color[] colors, Vector2 scale, float rotation, Vector2 origin, float layerDepth = 0.0f)
 		{
+			position = Transform2.Apply(position);
 			SetTextTextureFiltering();
 
 #if MONOGAME || FNA || STRIDE

@@ -27,7 +27,7 @@ namespace Myra.Graphics2D.UI
 
 		private void LayoutControl(Widget control)
 		{
-			control.Layout(ActualBounds);
+			control.Layout(new Rectangle(0, 0, ActualBounds.Width, ActualBounds.Height));
 		}
 
 		protected override Point InternalMeasure(Point availableSize)

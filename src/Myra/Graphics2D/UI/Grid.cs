@@ -773,13 +773,12 @@ namespace Myra.Graphics2D.UI
 				}
 			}
 
-			var bounds = ActualBounds;
+			var rect = new Rectangle(_cellLocationsX[col], _cellLocationsY[row], cellSize.X, cellSize.Y);
 
-			var rect = new Rectangle(bounds.Left + _cellLocationsX[col], bounds.Top + _cellLocationsY[row], cellSize.X, cellSize.Y);
-
-			if (rect.Right > bounds.Right)
+			var width = ActualBounds.Width;
+			if (rect.Right > width)
 			{
-				rect.Width = bounds.Right - rect.X;
+				rect.Width = width - rect.X;
 			}
 
 			if (rect.Width < 0)
@@ -787,14 +786,15 @@ namespace Myra.Graphics2D.UI
 				rect.Width = 0;
 			}
 
-			if (rect.Width > bounds.Width)
+			if (rect.Width > width)
 			{
-				rect.Width = bounds.Width;
+				rect.Width = width;
 			}
 
-			if (rect.Bottom > bounds.Bottom)
+			var height = ActualBounds.Height;
+			if (rect.Bottom > height)
 			{
-				rect.Height = bounds.Bottom - rect.Y;
+				rect.Height = height - rect.Y;
 			}
 
 			if (rect.Height < 0)
@@ -802,9 +802,9 @@ namespace Myra.Graphics2D.UI
 				rect.Height = 0;
 			}
 
-			if (rect.Height > bounds.Height)
+			if (rect.Height > height)
 			{
-				rect.Height = bounds.Height;
+				rect.Height = height;
 			}
 
 			control.Layout(rect);

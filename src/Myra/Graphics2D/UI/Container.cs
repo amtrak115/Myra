@@ -178,12 +178,22 @@ namespace Myra.Graphics2D.UI
 
 		public override void InternalRender(RenderContext context)
 		{
-			foreach (var child in ChildrenCopy)
+			var offset = new Vector2(ContainerBounds.X, ContainerBounds.Y);
+			try
 			{
-				if (!child.Visible)
-					continue;
+				context.Transform2.Position += offset;
 
-				child.Render(context);
+				foreach (var child in ChildrenCopy)
+				{
+					if (!child.Visible)
+						continue;
+
+					child.Render(context);
+				}
+			}
+			finally
+			{
+				context.Transform2.Position -= offset;
 			}
 		}
 

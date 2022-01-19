@@ -63,6 +63,7 @@ namespace Myra.Graphics2D
 		/// <param name="thickness">The thickness of the lines</param>
 		public void DrawRectangle(Rectangle rectangle, Color color, float thickness = 1f)
 		{
+			rectangle = Transform2.Apply(rectangle);
 			var texture = DefaultAssets.WhiteTexture;
 			var t = (int)thickness;
 
